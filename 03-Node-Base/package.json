@@ -1,0 +1,11 @@
+{
+  "name": "03-node-base",
+  "version": "0.0.1",
+  "description": "Base Node example",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Eduardo Alvarez",
+  "license": "MIT"
+}
