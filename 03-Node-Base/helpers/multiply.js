@@ -1,6 +1,9 @@
 
 //convert approach to Async or promise-based
 
+const colors = require('colors');
+
+
 module.exports = {
     createMultiMultiplicationTableFile
 };
@@ -15,7 +18,7 @@ function getMultiplyTable(multiplicand = 1, multiplier = 1)
     for (let currentMultiplier = 1; currentMultiplier <= multiplier; currentMultiplier++) 
     {
         const result = multiply(multiplicand, currentMultiplier);
-        resultString += `${multiplicand} x ${currentMultiplier}\t= ${result}\n`;
+        resultString += `${multiplicand} ${colors.green("x")} ${currentMultiplier}\t= ${result}\n`;
     }
     return (resultString);
 }       
@@ -46,30 +49,33 @@ async function writeMultiplyTable(fileName, data)
 }
 
 function writeHeader(multiplicand) {
-    let header = "=========================\n";
-    header += `Multiplication Table (${multiplicand})\n`;
-    header += "=========================\n";
+    let header = colors.blue("=========================\n");
+    header += colors.green(`Multiplication Table (${colors.red(`${multiplicand}`)})\n`);
+    header += colors.blue("=========================\n");
     return header;
 }
 
 
-async function createMultiplicationTableFile(multiplicand = 1, multiplier = 1) 
+async function createMultiplicationTableFile(multiplicand = 1, multiplier = 1, verbose = false, path = '.') 
 {
     let resultString = writeHeader(multiplicand);
     resultString += getMultiplyTable(multiplicand, multiplier);
-    console.log(resultString);
-    await writeMultiplyTable(`multiplication_table_${multiplicand}.txt`, resultString);
+    if (verbose) {
+        console.log(resultString);
+    }
+    const filePath = path + `/multiplication_table_${multiplicand}.txt`;
+    await writeMultiplyTable(filePath, resultString);
 
 }
 
-async function createMultiMultiplicationTableFile(multiplicand = 1, multiplier = 1) 
+async function createMultiMultiplicationTableFile(multiplicand = 1, multiplier = 1, verbose = false, path = '.') 
 {
     let returnCode = 0;
     for (let currentMultiplicand = 1; currentMultiplicand <= multiplicand; currentMultiplicand++) 
     {
         try
         {
-            await createMultiplicationTableFile(currentMultiplicand, multiplier);
+            await createMultiplicationTableFile(currentMultiplicand, multiplier, verbose, path);
         }
         catch (error)
         {
